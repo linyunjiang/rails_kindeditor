@@ -270,7 +270,7 @@ K.options = {
 		'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
 		'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'multiimage',
 		'flash', 'media', 'insertfile', 'table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
-		'anchor', 'link', 'unlink', '|', 'about'
+		'anchor', 'link', 'unlink', '|', 'about', 'iframe'
 	],
 	noDisableItems : ['source', 'fullscreen'],
 	colorTable : [
@@ -3330,8 +3330,20 @@ _extend(KCmd, {
 			_nativeCommand(doc, 'unlink', null);
 		}
 		return self;
+	},
+	createiframe : function(url, width, height) {
+		var html = '<iframe src="' + _escape(url) + '" data-ke-src="' + _escape(url) + '" ';
+		if (width) {
+			html += 'width="' + _escape(width) + '" ';
+		}
+		if (height) {
+			html += 'height="' + _escape(height) + '" ';
+		}
+		html += '></iframe>';
+		return this.inserthtml(html);
 	}
 });
+
 _each(('formatblock,selectall,justifyleft,justifycenter,justifyright,justifyfull,insertorderedlist,' +
 	'insertunorderedlist,indent,outdent,subscript,superscript').split(','), function(i, name) {
 	KCmd.prototype[name] = function(val) {
@@ -6128,6 +6140,7 @@ KindEditor.lang({
 	multiimage : '批量图片上传',
 	flash : 'Flash',
 	media : '视音频',
+	iframe : 'Iframe',
 	table : '表格',
 	tablecell : '单元格',
 	hr : '插入横线',
@@ -6213,6 +6226,10 @@ KindEditor.lang({
 	'media.autostart' : '自动播放',
 	'media.upload' : '上传',
 	'media.viewServer' : '文件空间',
+	'iframe.url' : 'URL',
+	'iframe.size' : '大小',
+	'iframe.width' : '宽度',
+	'iframe.height' : '高度',
 	'image.remoteImage' : '网络图片',
 	'image.localImage' : '本地上传',
 	'image.remoteUrl' : '图片地址',
@@ -7894,6 +7911,51 @@ KindEditor.plugin('media', function(K) {
 		}
 	};
 	self.clickToolbar(name, self.plugin.media.edit);
+});
+
+KindEditor.plugin('iframe', function(K) {
+	var self = this, name = 'iframe';
+	self.plugin.iframe = {
+		edit : function() {
+			var lang = self.lang(name + '.'),
+				html = '<div style="padding:20px;">' +
+					'<div class="ke-dialog-row">' +
+					'<label for="keUrl" style="width:60px;">' + lang.url + '</label>' +
+					'<input class="ke-input-text" type="text" id="keUrl" name="url" value="" style="width:260px;" /></div>' +
+					'<div class="ke-dialog-row">' +
+					'<label for="remoteWidth" style="width:60px;">' + lang.size + '</label>' +
+					lang.width + ' <input type="text" id="remoteWidth" class="ke-input-text ke-input-number" name="width" value="" maxlength="4" /> ' +
+					lang.height + ' <input type="text" class="ke-input-text ke-input-number" name="height" value="" maxlength="4" /> ' +			
+					'</div>' +
+					'</div>',
+				dialog = self.createDialog({
+					name : name,
+					width : 450,
+					title : self.lang(name),
+					body : html,
+					yesBtn : {
+						name : self.lang('yes'),
+						click : function(e) {
+							var url = K.trim(urlBox.val()),
+								width = widthBox.val(),
+								height = heightBox.val();
+							if (url == 'http://' || K.invalidUrl(url)) {
+								alert(self.lang('invalidUrl'));
+								urlBox[0].focus();
+								return;
+							}
+							self.exec('createiframe', url, width, height).hideDialog().focus();
+						}
+					}
+				}),
+				div = dialog.div,
+				urlBox = K('input[name="url"]', div),
+				widthBox = K('input[name="width"]', div),
+				heightBox = K('input[name="height"]', div);
+			urlBox.val('http://');
+		}
+	};
+	self.clickToolbar(name, self.plugin.iframe.edit);
 });
 
 /*******************************************************************************

@@ -43,6 +43,7 @@ KindEditor.lang({
 	multiimage : 'Мульти-загрузка',
 	flash : 'Flash',
 	media : 'Встроенные данные',
+	iframe: 'Iframe'
 	table : 'Таблица',
 	tablecell : 'Ячейка',
 	hr : 'Горизонтальный разделитель',
@@ -128,6 +129,10 @@ KindEditor.lang({
 	'media.autostart' : 'Автостарт',
 	'media.upload' : 'Загрузить',
 	'media.viewServer' : 'Выбрать',
+	'iframe.url' : 'URL',
+	'iframe.size' : 'Размер',
+	'iframe.width' : 'Ширина',
+	'iframe.height' : 'Высота',
 	'image.remoteImage' : 'Вставить URL изображения',
 	'image.localImage' : 'Загрузить',
 	'image.remoteUrl' : 'URL',
