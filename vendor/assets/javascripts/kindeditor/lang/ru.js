@@ -43,7 +43,7 @@ KindEditor.lang({
 	multiimage : 'Мульти-загрузка',
 	flash : 'Flash',
 	media : 'Встроенные данные',
-	iframe: 'Iframe'
+	iframe: 'Iframe',
 	table : 'Таблица',
 	tablecell : 'Ячейка',
 	hr : 'Горизонтальный разделитель',
