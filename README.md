@@ -330,7 +330,7 @@ Precompiling assets不再自动从vendor/assets和lib/assets拷贝非JS/CSS文�
 
   $(document).on 'turbolinks:load', ->
     $('.rails_kindeditor').each ->
-      KindEditor.create "##{$(this).attr('id')}", "allowFileManager": true, "uploadJson": $(this).data('upload'), "fileManagerJson": $(this).data('filemanager'), "width": '100%', "height": '300', "items":["fontname","fontsize","|","forecolor","hilitecolor","bold","italic","underline","removeformat","|","justifyleft","justifycenter","justifyright","insertorderedlist","insertunorderedlist","|","emoticons","image","link"]
+      KindEditor.create "##{$(this).attr('id')}", "allowFileManager": true, "uploadJson": $(this).data('upload'), "fileManagerJson": $(this).data('filemanager'), "width": '100%', "height": '300', "items":["fontname","fontsize","|","forecolor","hilitecolor","bold","italic","underline","removeformat","|","justifyleft","justifycenter","justifyright","insertorderedlist","insertunorderedlist","|","emoticons","image","link","iframe"]
 ```
 
 请确保以上文件被app/assets/javascripts/application.js正确加载
